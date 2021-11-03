@@ -9,5 +9,19 @@
         android:id="@+id/charactersListFragment"
         android:name="com.dpulgarin.marvellist.ui.characters.CharactersListFragment"
         android:label="fragment_characters_list"
-        tools:layout="@layout/fragment_characters_list" />
+        tools:layout="@layout/fragment_characters_list" >
+        <action
+            android:id="@+id/action_charactersListFragment_to_characterDetailFragment"
+            app:destination="@id/characterDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/characterDetailFragment"
+        android:name="com.dpulgarin.marvellist.ui.characterdetail.CharacterDetailFragment"
+        android:label="fragment_character_detail"
+        tools:layout="@layout/fragment_character_detail" >
+        <argument
+            android:name="character"
+            app:argType="com.dpulgarin.marvellist.data.models.Character"
+            app:nullable="true" />
+    </fragment>
 </navigation>

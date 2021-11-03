@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.dpulgarin.marvellist.R
 import com.dpulgarin.marvellist.core.Resource
 import com.dpulgarin.marvellist.core.extensions.gone
@@ -64,6 +65,9 @@ class CharactersListFragment : Fragment(R.layout.fragment_characters_list), Char
 
     override fun onCharacterClick(character: Character) {
         Log.d("Character", "onCharacterClick: $character")
+
+        val action = CharactersListFragmentDirections.actionCharactersListFragmentToCharacterDetailFragment(character)
+        findNavController().navigate(action)
     }
 
 }
