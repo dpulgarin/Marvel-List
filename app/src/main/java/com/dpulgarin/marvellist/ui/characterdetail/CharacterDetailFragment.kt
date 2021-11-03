@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.dpulgarin.marvellist.R
 import com.dpulgarin.marvellist.data.remote.RemoteCharacterDatasource
 import com.dpulgarin.marvellist.databinding.FragmentCharacterDetailBinding
@@ -38,6 +39,18 @@ class CharacterDetailFragment : Fragment(R.layout.fragment_character_detail) {
         binding = FragmentCharacterDetailBinding.bind(view)
 
         character = args.character
+
+        initCharacter()
+    }
+
+    fun initCharacter() {
+        Glide.with(requireContext())
+            .load(character?.thumbnail?.getUrl())
+            .centerCrop()
+            .into(binding.imgCharacter)
+
+        binding.txtName.text = character?.name
+        binding.txtDescription.text = character?.description
     }
 
 }
