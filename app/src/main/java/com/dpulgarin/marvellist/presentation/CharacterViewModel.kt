@@ -6,10 +6,9 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.dpulgarin.marvellist.application.AppConstants
 import com.dpulgarin.marvellist.core.Resource
+import com.dpulgarin.marvellist.core.extensions.md5
 import com.dpulgarin.marvellist.repository.CharacterRepository
 import kotlinx.coroutines.Dispatchers
-import java.nio.charset.StandardCharsets
-import java.security.MessageDigest
 import java.util.*
 
 class CharacterViewModel(private val repo: CharacterRepository): ViewModel() {
@@ -28,14 +27,6 @@ class CharacterViewModel(private val repo: CharacterRepository): ViewModel() {
 
     fun createTimestamp() = Date().time
     fun createHash(timestamp: Long) = (timestamp.toString() + AppConstants.PRIVATE_KEY + AppConstants.API_KEY).md5()
-
-    fun String.md5(): String = MessageDigest.getInstance("MD5").digest(
-        this.toByteArray(
-            StandardCharsets.UTF_8
-        )
-    ).toHex()
-
-    fun ByteArray.toHex() = joinToString("") { "%02x".format(it) }
 }
 
 class CharacterViewModelFactory(private val repo: CharacterRepository): ViewModelProvider.Factory {

@@ -6,9 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.dpulgarin.marvellist.R
 import com.dpulgarin.marvellist.core.Resource
+import com.dpulgarin.marvellist.core.extensions.gone
+import com.dpulgarin.marvellist.core.extensions.visible
 import com.dpulgarin.marvellist.data.remote.RemoteCharacterDatasource
 import com.dpulgarin.marvellist.databinding.FragmentCharactersListBinding
 import com.dpulgarin.marvellist.presentation.CharacterViewModel
@@ -38,25 +39,19 @@ class CharactersListFragment : Fragment(R.layout.fragment_characters_list), Char
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCharactersListBinding.bind(view)
 
-        viewModel.fetchMainScreenCharacters().observe(viewLifecycleOwner, Observer { result ->
+        viewModel.fetchMainScreenCharacters().observe(viewLifecycleOwner, { result ->
             when (result) {
                 is Resource.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.visible()
                 }
 
                 is Resource.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    /*if(result.data.data.results.isEmpty()) {
-                        binding.emptyContainer.show()
-                        return@Observer
-                    } else {
-                        binding.emptyContainer.hide()
-                    } */
+                    binding.progressBar.gone()
                     binding.rvCharacters.adapter = CharactersAdapter(result.data.data.results, this@CharactersListFragment)
                 }
 
                 is Resource.Failure -> {
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.gone()
                     Toast.makeText(
                         requireContext(),
                         "Ocurrio un error: ${result.exception}",
