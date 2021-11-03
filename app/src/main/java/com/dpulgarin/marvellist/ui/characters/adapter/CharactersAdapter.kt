@@ -41,7 +41,7 @@ class CharactersAdapter(private val characterList: List<Character>,
     private inner class CharacterViewHolder(val binding: CharacterItemBinding, val context: Context): BaseViewHolder<Character>(binding.root) {
         override fun bind(item: Character) {
             Glide.with(context)
-                .load("https://image.tmdb.org/t/p/w500${item.thumbnail.path}")
+                .load(item.thumbnail.path)
                 .centerCrop()
                 .into(binding.imgCharacter)
         }
