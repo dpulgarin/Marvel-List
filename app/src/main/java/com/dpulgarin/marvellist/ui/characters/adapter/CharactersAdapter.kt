@@ -14,7 +14,7 @@ class CharactersAdapter(private val characterList: List<Character>,
                         private val itemClickListener: OnCharacterClickListener) : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     interface OnCharacterClickListener {
-        fun onMovieClick(character: Character)
+        fun onCharacterClick(character: Character)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
@@ -24,7 +24,7 @@ class CharactersAdapter(private val characterList: List<Character>,
         itemBindig.root.setOnClickListener {
             val position = holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                 ?: return@setOnClickListener
-            itemClickListener.onMovieClick(characterList[position])
+            itemClickListener.onCharacterClick(characterList[position])
         }
 
         return holder
