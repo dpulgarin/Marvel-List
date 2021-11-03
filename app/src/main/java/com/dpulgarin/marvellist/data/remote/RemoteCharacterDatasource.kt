@@ -5,7 +5,7 @@ import com.dpulgarin.marvellist.data.models.CharacterDataWrapper
 import com.dpulgarin.marvellist.repository.WebService
 
 class RemoteCharacterDatasource(private val webService: WebService) {
-    suspend fun getCharacters(): CharacterDataWrapper = webService.getCharacters(AppConstants.API_KEY)
+    suspend fun getCharacters(ts: Long, hash: String): CharacterDataWrapper = webService.getCharacters(AppConstants.API_KEY, ts, hash)
 
-    suspend fun getCharacterById(characterId: String): CharacterDataWrapper = webService.getCharacterById(AppConstants.API_KEY, characterId)
+    suspend fun getCharacterById(characterId: String, ts: Long, hash: String): CharacterDataWrapper = webService.getCharacterById(AppConstants.API_KEY, characterId, ts, hash)
 }

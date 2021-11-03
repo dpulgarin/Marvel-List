@@ -9,9 +9,11 @@ import com.bumptech.glide.Glide
 import com.dpulgarin.marvellist.core.BaseViewHolder
 import com.dpulgarin.marvellist.data.models.Character
 import com.dpulgarin.marvellist.databinding.CharacterItemBinding
+import com.dpulgarin.marvellist.ui.characters.CharactersListFragment
 
 class CharactersAdapter(private val characterList: List<Character>,
-                        private val itemClickListener: OnCharacterClickListener) : RecyclerView.Adapter<BaseViewHolder<*>>() {
+                        private val itemClickListener: CharactersListFragment
+) : RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     interface OnCharacterClickListener {
         fun onCharacterClick(character: Character)
@@ -41,7 +43,7 @@ class CharactersAdapter(private val characterList: List<Character>,
     private inner class CharacterViewHolder(val binding: CharacterItemBinding, val context: Context): BaseViewHolder<Character>(binding.root) {
         override fun bind(item: Character) {
             Glide.with(context)
-                .load(item.thumbnail.path)
+                .load(item.thumbnail.getUrl())
                 .centerCrop()
                 .into(binding.imgCharacter)
         }
