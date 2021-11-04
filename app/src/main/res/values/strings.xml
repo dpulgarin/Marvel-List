@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Marvel List</string>
 
+    <!-- Character List -->
+    <string name="character_list_chose_list">Chose your favourite Character</string>
+
     <!-- Character Detail -->
     <string name="character_detail_comics">Comics</string>
     <string name="character_detail_series">Series</string>

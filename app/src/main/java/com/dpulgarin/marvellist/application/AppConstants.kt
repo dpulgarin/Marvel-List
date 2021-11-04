@@ -12,7 +12,7 @@ object AppConstants {
     // Socket
     const val HOSTNAME = "8.8.8.8"
     const val PORT = 53
-    const val TIMEOUT = 2000
+    const val TIMEOUT = 2
 
     // Alpha
     const val ALPHA_ENABLED = 1f

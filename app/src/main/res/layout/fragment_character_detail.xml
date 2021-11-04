@@ -31,12 +31,14 @@
             android:layout_height="250dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/black"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/img_background"
                 android:layout_width="match_parent"
-                android:layout_height="250dp" />
+                android:src="@drawable/background_detail"
+                android:layout_height="match_parent" />
 
             <View
                 android:layout_width="match_parent"
