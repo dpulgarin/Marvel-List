@@ -2,6 +2,9 @@ package com.dpulgarin.marvellist.data.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.*
 
 data class Character (
@@ -69,5 +72,54 @@ data class Character (
             return if (long != -1L) Date(long) else null
         }
     }
-
 }
+
+// Room
+@Entity
+data class CharacterEntity (
+    @PrimaryKey
+    val id: Int = -1,
+    @ColumnInfo(name="name")
+    val name: String? = "",
+    @ColumnInfo(name="description")
+    val description: String? = "",
+    @ColumnInfo(name="resource_uri")
+    val resourceURI: String? = "",
+    @ColumnInfo(name="thumbnail_path")
+    val thumbnail_path: String? = "",
+    @ColumnInfo(name="thumbnail_extension")
+    val thumbnail_extension: String? = ""
+)
+
+fun List<CharacterEntity>.toCharacterList(): List<Character> {
+    val resultList = mutableListOf<Character>()
+
+    this.forEach{ characterEntity ->
+        resultList.add(characterEntity.toCharacter())
+    }
+
+    return resultList
+}
+
+fun CharacterEntity.toCharacter(): Character = Character(
+    this.id,
+    this.name,
+    this.description,
+    null,
+    this.resourceURI,
+    null,
+    Image(this.thumbnail_path, this.thumbnail_extension),
+    null,
+    null,
+    null,
+    null
+)
+
+fun Character.toCharacterEntity(): CharacterEntity = CharacterEntity(
+    this.id,
+    this.name,
+    this.description,
+    this.resourceURI,
+    this.thumbnail?.path,
+    this.thumbnail?.extension
+)

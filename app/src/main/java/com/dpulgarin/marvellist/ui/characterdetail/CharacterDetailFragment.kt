@@ -11,6 +11,8 @@ import com.dpulgarin.marvellist.R
 import com.dpulgarin.marvellist.core.Resource
 import com.dpulgarin.marvellist.core.extensions.gone
 import com.dpulgarin.marvellist.core.extensions.visible
+import com.dpulgarin.marvellist.data.local.AppDatabase
+import com.dpulgarin.marvellist.data.local.LocalCharacterDataSource
 import com.dpulgarin.marvellist.data.remote.RemoteCharacterDatasource
 import com.dpulgarin.marvellist.databinding.FragmentCharacterDetailBinding
 import com.dpulgarin.marvellist.presentation.CharacterViewModel
@@ -18,7 +20,6 @@ import com.dpulgarin.marvellist.presentation.CharacterViewModelFactory
 import com.dpulgarin.marvellist.repository.CharacterRepositoryImpl
 import com.dpulgarin.marvellist.repository.WebService
 import com.dpulgarin.marvellist.data.models.Character
-import com.dpulgarin.marvellist.ui.characters.adapter.CharactersAdapter
 
 /**
  * A simple [Fragment] subclass.
@@ -34,7 +35,8 @@ class CharacterDetailFragment : Fragment(R.layout.fragment_character_detail) {
     private val viewModel by viewModels<CharacterViewModel> {
         CharacterViewModelFactory(
             CharacterRepositoryImpl(
-                RemoteCharacterDatasource(WebService.RetrofitClient.webService)
+                RemoteCharacterDatasource(WebService.RetrofitClient.webService),
+                LocalCharacterDataSource(AppDatabase.getDatabase(requireContext()).characterDao())
             )
         )
     }

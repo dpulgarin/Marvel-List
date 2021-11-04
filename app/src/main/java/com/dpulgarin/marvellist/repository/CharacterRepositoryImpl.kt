@@ -1,13 +1,25 @@
 package com.dpulgarin.marvellist.repository
 
+import com.dpulgarin.marvellist.core.InternetCheck
+import com.dpulgarin.marvellist.data.local.LocalCharacterDataSource
+import com.dpulgarin.marvellist.data.models.Character
 import com.dpulgarin.marvellist.data.models.CharacterDataWrapper
+import com.dpulgarin.marvellist.data.models.toCharacterEntity
 import com.dpulgarin.marvellist.data.remote.RemoteCharacterDatasource
 
 class CharacterRepositoryImpl(
-    private val dataSourceRemote: RemoteCharacterDatasource
+    private val dataSourceRemote: RemoteCharacterDatasource,
+    private val dataSourceLocal: LocalCharacterDataSource
 ) : CharacterRepository {
-    override suspend fun getCharacters(ts: Long, hash: String): CharacterDataWrapper {
-        return dataSourceRemote.getCharacters(ts, hash)
+    override suspend fun getCharacters(ts: Long, hash: String): List<Character> {
+        return if (InternetCheck.isNetworkAvailable()) {
+            dataSourceRemote.getCharacters(ts, hash).data.results.forEach { character ->
+                dataSourceLocal.saveCharacter(character.toCharacterEntity())
+            }
+            return dataSourceLocal.getCharacters()
+        } else {
+            return dataSourceLocal.getCharacters()
+        }
     }
 
     override suspend fun getCharacterById(characterId: Int, ts: Long, hash: String): CharacterDataWrapper {

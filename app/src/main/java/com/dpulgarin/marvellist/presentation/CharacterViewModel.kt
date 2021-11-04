@@ -18,8 +18,8 @@ class CharacterViewModel(private val repo: CharacterRepository): ViewModel() {
 
         kotlin.runCatching {
             repo.getCharacters(createTimestamp(), createHash(createTimestamp()))
-        }.onSuccess { characterDataWraper ->
-            emit(Resource.Success(characterDataWraper))
+        }.onSuccess { characterList ->
+            emit(Resource.Success(characterList))
         }.onFailure { throwable ->
             emit(Resource.Failure(Exception(throwable.message)))
         }

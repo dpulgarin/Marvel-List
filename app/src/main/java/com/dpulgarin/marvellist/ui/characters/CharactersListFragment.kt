@@ -11,6 +11,8 @@ import com.dpulgarin.marvellist.R
 import com.dpulgarin.marvellist.core.Resource
 import com.dpulgarin.marvellist.core.extensions.gone
 import com.dpulgarin.marvellist.core.extensions.visible
+import com.dpulgarin.marvellist.data.local.AppDatabase
+import com.dpulgarin.marvellist.data.local.LocalCharacterDataSource
 import com.dpulgarin.marvellist.data.remote.RemoteCharacterDatasource
 import com.dpulgarin.marvellist.databinding.FragmentCharactersListBinding
 import com.dpulgarin.marvellist.presentation.CharacterViewModel
@@ -31,7 +33,8 @@ class CharactersListFragment : Fragment(R.layout.fragment_characters_list), Char
     private val viewModel by viewModels<CharacterViewModel> {
         CharacterViewModelFactory(
             CharacterRepositoryImpl(
-                RemoteCharacterDatasource(WebService.RetrofitClient.webService)
+                RemoteCharacterDatasource(WebService.RetrofitClient.webService),
+                LocalCharacterDataSource(AppDatabase.getDatabase(requireContext()).characterDao())
             )
         )
     }
@@ -52,7 +55,7 @@ class CharactersListFragment : Fragment(R.layout.fragment_characters_list), Char
 
                 is Resource.Success -> {
                     binding.progressBar.gone()
-                    binding.rvCharacters.adapter = CharactersAdapter(result.data.data.results, this@CharactersListFragment)
+                    binding.rvCharacters.adapter = CharactersAdapter(result.data, this@CharactersListFragment)
                 }
 
                 is Resource.Failure -> {
