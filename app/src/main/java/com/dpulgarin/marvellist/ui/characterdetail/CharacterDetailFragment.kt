@@ -8,12 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.dpulgarin.marvellist.R
-import com.dpulgarin.marvellist.application.AppConstants
 import com.dpulgarin.marvellist.application.AppConstants.ALPHA_DISABLED
 import com.dpulgarin.marvellist.application.AppConstants.ALPHA_ENABLED
 import com.dpulgarin.marvellist.core.Resource
 import com.dpulgarin.marvellist.core.extensions.gone
-import com.dpulgarin.marvellist.core.extensions.invisible
 import com.dpulgarin.marvellist.core.extensions.visible
 import com.dpulgarin.marvellist.data.local.AppDatabase
 import com.dpulgarin.marvellist.data.local.LocalCharacterDataSource
@@ -25,7 +23,6 @@ import com.dpulgarin.marvellist.repository.CharacterRepositoryImpl
 import com.dpulgarin.marvellist.repository.WebService
 import com.dpulgarin.marvellist.data.models.Character
 import com.dpulgarin.marvellist.ui.characterdetail.adapter.CharacterAdapter
-import com.dpulgarin.marvellist.ui.characters.adapter.CharactersAdapter
 
 /**
  * A simple [Fragment] subclass.
