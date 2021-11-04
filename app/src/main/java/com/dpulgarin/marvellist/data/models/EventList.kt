@@ -37,4 +37,14 @@ data class EventList (
             return arrayOfNulls(size)
         }
     }
+
+    fun getEventsNames(): List<String> {
+        val mutableList: MutableList<String> = mutableListOf()
+
+        items.forEach { eventSummary ->
+            mutableList.add(eventSummary.name)
+        }
+
+        return mutableList.toList()
+    }
 }

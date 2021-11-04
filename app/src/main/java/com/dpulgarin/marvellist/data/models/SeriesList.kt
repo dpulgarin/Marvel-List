@@ -37,4 +37,14 @@ data class SeriesList (
             return arrayOfNulls(size)
         }
     }
+
+    fun getSeriesNames(): List<String> {
+        val mutableList: MutableList<String> = mutableListOf()
+
+        items.forEach { serieSummary ->
+            mutableList.add(serieSummary.name)
+        }
+
+        return mutableList.toList()
+    }
 }

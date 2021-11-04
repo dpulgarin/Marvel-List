@@ -8,8 +8,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.dpulgarin.marvellist.R
+import com.dpulgarin.marvellist.application.AppConstants
+import com.dpulgarin.marvellist.application.AppConstants.ALPHA_DISABLED
+import com.dpulgarin.marvellist.application.AppConstants.ALPHA_ENABLED
 import com.dpulgarin.marvellist.core.Resource
 import com.dpulgarin.marvellist.core.extensions.gone
+import com.dpulgarin.marvellist.core.extensions.invisible
 import com.dpulgarin.marvellist.core.extensions.visible
 import com.dpulgarin.marvellist.data.local.AppDatabase
 import com.dpulgarin.marvellist.data.local.LocalCharacterDataSource
@@ -20,6 +24,8 @@ import com.dpulgarin.marvellist.presentation.CharacterViewModelFactory
 import com.dpulgarin.marvellist.repository.CharacterRepositoryImpl
 import com.dpulgarin.marvellist.repository.WebService
 import com.dpulgarin.marvellist.data.models.Character
+import com.dpulgarin.marvellist.ui.characterdetail.adapter.CharacterAdapter
+import com.dpulgarin.marvellist.ui.characters.adapter.CharactersAdapter
 
 /**
  * A simple [Fragment] subclass.
@@ -84,7 +90,102 @@ class CharacterDetailFragment : Fragment(R.layout.fragment_character_detail) {
             .into(binding.imgCharacter)
 
         binding.txtName.text = character?.name
-        binding.txtDescription.text = character?.description
+
+        var overviewText = character?.description
+        if (overviewText.isNullOrBlank()) {
+            overviewText = getString(R.string.character_detail_empty_overview)
+        }
+
+        binding.txtDescription.text = overviewText
+
+        character?.comics.let { comicsList ->
+            if (comicsList?.items?.isNullOrEmpty() == true) {
+                showEmptyView()
+            } else {
+                showRecycler()
+                binding.rvCharacterList.adapter = comicsList?.getComicsNames()?.let { list ->
+                    CharacterAdapter(list)
+                }
+            }
+            binding.txtComics.text = getString(R.string.character_detail_comics_number, comicsList?.items?.size)
+        }
+
+        var seriesCount = 0
+        if (character?.series?.items != null) {
+            seriesCount = character?.series?.items?.size!!
+        }
+        binding.txtSeries.text = getString(R.string.character_detail_series_number, seriesCount)
+
+        var eventsCount = 0
+        if (character?.events?.items != null) {
+            eventsCount = character?.events?.items?.size!!
+        }
+        binding.txtEvents.text = getString(R.string.character_detail_series_number, eventsCount)
+
+        setListeners()
+    }
+
+    fun setListeners() {
+        binding.linearComics.setOnClickListener {
+            setAlphas(ALPHA_ENABLED, ALPHA_DISABLED, ALPHA_DISABLED)
+
+            binding.txtTitleList.text = getString(R.string.character_detail_comics)
+
+            if (character?.comics?.items.isNullOrEmpty()) {
+                showEmptyView()
+            } else {
+                showRecycler()
+                binding.rvCharacterList.adapter = character?.comics?.getComicsNames()?.let { list ->
+                    CharacterAdapter(list)
+                }
+            }
+        }
+
+        binding.linearSeries.setOnClickListener {
+            setAlphas(ALPHA_DISABLED, ALPHA_ENABLED, ALPHA_DISABLED)
+
+            binding.txtTitleList.text = getString(R.string.character_detail_series)
+
+            if (character?.series?.items.isNullOrEmpty()) {
+                showEmptyView()
+            } else {
+                showRecycler()
+                binding.rvCharacterList.adapter = character?.series?.getSeriesNames()?.let { list ->
+                    CharacterAdapter(list)
+                }
+            }
+        }
+
+        binding.linearEvents.setOnClickListener {
+            setAlphas(ALPHA_DISABLED, ALPHA_DISABLED, ALPHA_ENABLED)
+
+            binding.txtTitleList.text = getString(R.string.character_detail_events)
+
+            if (character?.events?.items.isNullOrEmpty()) {
+                showEmptyView()
+            } else {
+                showRecycler()
+                binding.rvCharacterList.adapter = character?.events?.getEventsNames()?.let { list ->
+                    CharacterAdapter(list)
+                }
+            }
+        }
+    }
+
+    fun setAlphas(alphaComics: Float, alphaSeries: Float, alphaEvents: Float) {
+        binding.linearComics.alpha = alphaComics
+        binding.linearSeries.alpha = alphaSeries
+        binding.linearEvents.alpha = alphaEvents
+    }
+
+    fun showRecycler() {
+        binding.txtEmptyView.gone()
+        binding.rvCharacterList.visible()
+    }
+
+    fun showEmptyView() {
+        binding.txtEmptyView.visible()
+        binding.rvCharacterList.gone()
     }
 
 }

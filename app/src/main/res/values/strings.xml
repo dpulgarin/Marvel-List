@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">Marvel List</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Character Detail -->
+    <string name="character_detail_comics">Comics</string>
+    <string name="character_detail_series">Series</string>
+    <string name="character_detail_events">Events</string>
+    <string name="character_detail_overview">Overview</string>
+    <string name="character_detail_comics_number">%1$d Comics</string>
+    <string name="character_detail_series_number">%1$d Series</string>
+    <string name="character_detail_events_number">%1$d Events</string>
+    <string name="character_detail_empty_overview">There is no overview for this Character</string>
+    <string name="character_detail_empty_list">No data for this section</string>
+
 </resources>

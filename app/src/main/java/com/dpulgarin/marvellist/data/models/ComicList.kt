@@ -38,4 +38,14 @@ data class ComicList (
         }
     }
 
+    fun getComicsNames(): List<String> {
+        val mutableList: MutableList<String> = mutableListOf()
+
+        items.forEach { comicSummary ->
+            mutableList.add(comicSummary.name)
+        }
+
+        return mutableList.toList()
+    }
+
 }
