@@ -4,48 +4,34 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.dpulgarin.marvellist.R
-import com.dpulgarin.marvellist.application.AppConstants
 import com.dpulgarin.marvellist.application.AppConstants.ALPHA_DISABLED
 import com.dpulgarin.marvellist.application.AppConstants.ALPHA_ENABLED
 import com.dpulgarin.marvellist.core.Resource
 import com.dpulgarin.marvellist.core.extensions.gone
-import com.dpulgarin.marvellist.core.extensions.invisible
 import com.dpulgarin.marvellist.core.extensions.visible
-import com.dpulgarin.marvellist.data.local.AppDatabase
-import com.dpulgarin.marvellist.data.local.LocalCharacterDataSource
-import com.dpulgarin.marvellist.data.remote.RemoteCharacterDatasource
 import com.dpulgarin.marvellist.databinding.FragmentCharacterDetailBinding
 import com.dpulgarin.marvellist.presentation.CharacterViewModel
-import com.dpulgarin.marvellist.presentation.CharacterViewModelFactory
-import com.dpulgarin.marvellist.repository.CharacterRepositoryImpl
-import com.dpulgarin.marvellist.repository.WebService
 import com.dpulgarin.marvellist.data.models.Character
 import com.dpulgarin.marvellist.ui.characterdetail.adapter.CharacterAdapter
-import com.dpulgarin.marvellist.ui.characters.adapter.CharactersAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass.
  * Use the [CharacterDetailFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class CharacterDetailFragment : Fragment(R.layout.fragment_character_detail) {
     private lateinit var binding: FragmentCharacterDetailBinding
 
     private val args by navArgs<CharacterDetailFragmentArgs>()
     private var character: Character? = null
 
-    private val viewModel by viewModels<CharacterViewModel> {
-        CharacterViewModelFactory(
-            CharacterRepositoryImpl(
-                RemoteCharacterDatasource(WebService.RetrofitClient.webService),
-                LocalCharacterDataSource(AppDatabase.getDatabase(requireContext()).characterDao())
-            )
-        )
-    }
+    private val viewModel by activityViewModels<CharacterViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -6,8 +6,9 @@ import com.dpulgarin.marvellist.data.models.Character
 import com.dpulgarin.marvellist.data.models.CharacterDataWrapper
 import com.dpulgarin.marvellist.data.models.toCharacterEntity
 import com.dpulgarin.marvellist.data.remote.RemoteCharacterDatasource
+import javax.inject.Inject
 
-class CharacterRepositoryImpl(
+class CharacterRepositoryImpl @Inject constructor(
     private val dataSourceRemote: RemoteCharacterDatasource,
     private val dataSourceLocal: LocalCharacterDataSource
 ) : CharacterRepository {
