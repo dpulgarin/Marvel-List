@@ -10,7 +10,7 @@ class CharacterRepositoryImpl(
         return dataSourceRemote.getCharacters(ts, hash)
     }
 
-    override suspend fun getCharacterById(characterId: String, ts: Long, hash: String): CharacterDataWrapper {
+    override suspend fun getCharacterById(characterId: Int, ts: Long, hash: String): CharacterDataWrapper {
         return dataSourceRemote.getCharacterById(characterId, ts, hash)
     }
 }

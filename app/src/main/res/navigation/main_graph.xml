@@ -23,5 +23,8 @@
             android:name="character"
             app:argType="com.dpulgarin.marvellist.data.models.Character"
             app:nullable="true" />
+        <argument
+            android:name="character_id"
+            app:argType="integer" />
     </fragment>
 </navigation>

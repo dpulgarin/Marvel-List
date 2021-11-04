@@ -40,6 +40,10 @@ class CharactersListFragment : Fragment(R.layout.fragment_characters_list), Char
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCharactersListBinding.bind(view)
 
+        getCharactersList()
+    }
+
+    fun getCharactersList() {
         viewModel.fetchMainScreenCharacters().observe(viewLifecycleOwner, { result ->
             when (result) {
                 is Resource.Loading -> {
@@ -66,7 +70,7 @@ class CharactersListFragment : Fragment(R.layout.fragment_characters_list), Char
     override fun onCharacterClick(character: Character) {
         Log.d("Character", "onCharacterClick: $character")
 
-        val action = CharactersListFragmentDirections.actionCharactersListFragmentToCharacterDetailFragment(character)
+        val action = CharactersListFragmentDirections.actionCharactersListFragmentToCharacterDetailFragment(character, character.id)
         findNavController().navigate(action)
     }
 
